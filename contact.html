@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Chloé Legendre Leprêtre</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="index.html#accueil">Accueil</a>
+        <a href="index.html#projets">Projets</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <main class="contact-page">
+        <section class="contact-card">
+            <h1>Contact</h1>
+            <p>Tu peux me contacter directement sur LinkedIn ou via le formulaire ci-dessous.</p>
+
+            <a class="linkedin-button" href="https://www.linkedin.com/in/chloé-legendre-leprêtre-14b95a209/" target="_blank" rel="noopener noreferrer">
+                Mon LinkedIn
+            </a>
+
+            <form class="contact-form" id="contact-form" method="post">
+                <input type="hidden" name="access_key" value="REMPLACE_ICI_TA_CLE_WEB3FORMS">
+                <input type="hidden" name="subject" value="Nouveau message depuis le portfolio">
+                <input type="checkbox" name="botcheck" class="hidden-field" tabindex="-1" autocomplete="off">
+
+                <label for="name">Nom</label>
+                <input id="name" name="name" type="text" required>
+
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+
+                <button type="submit" class="cta-button">Envoyer</button>
+                <p id="form-status" class="form-status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const form = document.getElementById('contact-form');
+        const status = document.getElementById('form-status');
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const accessKey = formData.get('access_key');
+
+            if (!accessKey || String(accessKey).includes('REMPLACE_ICI')) {
+                status.textContent = 'Ajoute ta cle Web3Forms dans le champ access_key pour activer lenvoi.';
+                status.className = 'form-status is-error';
+                return;
+            }
+
+            status.textContent = 'Envoi en cours...';
+            status.className = 'form-status';
+
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    status.textContent = 'Message envoye avec succes.';
+                    status.className = 'form-status is-success';
+                    form.reset();
+                } else {
+                    status.textContent = 'Envoi impossible. Verifie ta cle Web3Forms.';
+                    status.className = 'form-status is-error';
+                }
+            } catch (error) {
+                status.textContent = 'Erreur reseau. Reessaie dans un instant.';
+                status.className = 'form-status is-error';
+            }
+        });
+    </script>
+</body>
+</html>

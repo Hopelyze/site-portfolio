@@ -1,0 +1,313 @@
+/* Variables de design */
+:root {
+    --primary: #2d3436;
+    --accent: #6c5ce7; 
+    --bg: #f9f9f9;
+    --white: #ffffff;
+    --text-light: #636e72;
+}
+
+/* Base */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--primary);
+    background: linear-gradient(135deg, var(--white) 0%, #9a7af8 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 70px 0 0;
+}
+
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(45, 52, 54, 0.12);
+    z-index: 1000;
+}
+
+.top-nav a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+}
+
+.top-nav a:hover {
+    color: var(--accent);
+}
+
+/* Header & Hero Section */
+header {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    background: transparent;
+}
+
+h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    color: var(--accent);
+}
+
+.tagline {
+    font-size: 1.5rem;
+    font-weight: bold;
+    max-width: 800px;
+    margin-bottom: 30px;
+}
+
+.bio {
+    max-width: 700px;
+    font-size: 1.1rem;
+    color: black;
+}
+
+/* Boutons */
+.cta-button {
+    margin-top: 40px;
+    padding: 15px 35px;
+    background-color: var(--accent);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+}
+
+/* Sections Projets */
+section {
+    padding: 100px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.project-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.project-link .card h3 {
+    margin: 0;
+}
+
+.project-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    object-fit: contain;
+    background: #ffffff;
+    border-radius: 12px;
+    display: block;
+    margin-bottom: 18px;
+}
+
+.project-thumb.is-portrait {
+    padding: 8px;
+}
+
+.project-page {
+    max-width: 900px;
+    margin: 40px auto 80px;
+    padding: 0 20px;
+}
+
+.project-detail {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.project-meta {
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.project-hero {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    object-fit: contain;
+    background: #ffffff;
+    border-radius: 14px;
+    display: block;
+    margin: 12px 0 20px;
+}
+
+.project-hero.is-portrait {
+    padding: 12px;
+}
+
+.project-detail h2 {
+    margin-top: 28px;
+    margin-bottom: 10px;
+    color: var(--accent);
+}
+
+.project-detail ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 22px;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.contact-page {
+    max-width: 900px;
+    margin: 40px auto 80px;
+    padding: 0 20px;
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.contact-card h1 {
+    margin-top: 0;
+}
+
+.linkedin-button {
+    display: inline-block;
+    margin: 10px 0 24px;
+    padding: 12px 22px;
+    background: #0a66c2;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+}
+
+.linkedin-button:hover {
+    transform: translateY(-2px);
+}
+
+.contact-form {
+    display: grid;
+    gap: 10px;
+}
+
+.contact-form label {
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dfe6e9;
+    border-radius: 10px;
+    padding: 12px;
+    font: inherit;
+}
+
+.hidden-field {
+    display: none;
+}
+
+.contact-form .cta-button {
+    margin-top: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.form-status {
+    margin: 2px 0 0;
+    min-height: 24px;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.form-status.is-success {
+    color: #218c5a;
+}
+
+.form-status.is-error {
+    color: #b33939;
+}
+
+footer {
+    text-align: center;
+    padding: 60px;
+    color: #b2bec3;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+    .top-nav {
+        gap: 18px;
+        height: 64px;
+    }
+
+    body {
+        padding-top: 64px;
+    }
+
+    .top-nav a {
+        font-size: 0.95rem;
+    }
+
+    .project-detail {
+        padding: 24px;
+    }
+
+    .contact-card {
+        padding: 24px;
+    }
+}
