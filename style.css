@@ -335,12 +335,31 @@ footer {
     transition: left 0.38s cubic-bezier(0.2, 0.8, 0.2, 1.15), border-color 0.25s ease, box-shadow 0.25s ease;
     animation: itch-glow 2.8s ease-in-out infinite;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .itch-float img {
     width: 84%;
     height: auto;
     display: block;
+    transition: opacity 0.15s ease;
+}
+
+.itch-float-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-size: 0.84rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: #e74c3c;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+    pointer-events: none;
 }
 
 .itch-float:not(.is-dodging):hover {
@@ -351,6 +370,14 @@ footer {
 
 .itch-float.is-dodging {
     filter: saturate(1.15);
+}
+
+.itch-float.is-dodging img {
+    opacity: 0;
+}
+
+.itch-float.is-dodging .itch-float-label {
+    opacity: 1;
 }
 
 .itch-float.is-dodging-left {

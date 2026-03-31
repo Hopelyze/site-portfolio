@@ -103,10 +103,12 @@
     </footer>
     <a href="https://hopelyze.itch.io/" class="itch-float" target="_blank" title="Jouer à mes jeux sur Itch.io">
         <img src="images/itch.png" alt="Jouer à mes jeux sur Itch.io" loading="lazy">
+        <span class="itch-float-label" aria-hidden="true"></span>
     </a>
     <script>
         (function () {
             var itchFloat = document.querySelector('.itch-float');
+            var itchFloatLabel = document.querySelector('.itch-float-label');
             if (!itchFloat) {
                 return;
             }
@@ -128,6 +130,10 @@
                 event.preventDefault();
                 var dodgeDirection = dodgeSequence[dodgeStep];
                 dodgeStep += 1;
+
+                if (itchFloatLabel) {
+                    itchFloatLabel.textContent = dodgeDirection === 'left' ? 'Lien' : 'Itch';
+                }
 
                 isDodging = true;
                 itchFloat.classList.add('is-dodging');
@@ -158,6 +164,9 @@
                     itchFloat.classList.remove('is-dodging');
                     itchFloat.classList.remove('is-dodging-left');
                     itchFloat.classList.remove('is-dodging-right');
+                    if (itchFloatLabel) {
+                        itchFloatLabel.textContent = '';
+                    }
                     isDodging = false;
 
                     if (dodgeStep >= dodgeSequence.length) {
