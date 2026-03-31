@@ -101,6 +101,68 @@
         <p>&copy; 2026 — Chloé Legendre Leprêtre — Master AMINJ</p>
         <a href="mentions-legales.html" class="footer-link">Mentions légales</a>
     </footer>
+    <a href="https://hopelyze.itch.io/" class="itch-float" target="_blank" title="Jouer à mes jeux sur Itch.io">
+        <img src="images/itch.png" alt="Jouer à mes jeux sur Itch.io" loading="lazy">
+    </a>
+    <script>
+        (function () {
+            var itchFloat = document.querySelector('.itch-float');
+            if (!itchFloat) {
+                return;
+            }
 
+            var isDodging = false;
+            var dodgeStep = 0;
+            var dodgeSequence = ['left', 'right'];
+
+            itchFloat.addEventListener('click', function (event) {
+                if (isDodging) {
+                    event.preventDefault();
+                    return;
+                }
+
+                if (dodgeStep >= dodgeSequence.length) {
+                    return;
+                }
+
+                event.preventDefault();
+                var dodgeDirection = dodgeSequence[dodgeStep];
+                dodgeStep += 1;
+
+                isDodging = true;
+                itchFloat.classList.add('is-dodging');
+
+                var rect = itchFloat.getBoundingClientRect();
+                var margin = 16;
+                var minLeft = margin;
+                var maxLeft = window.innerWidth - rect.width - margin;
+                var moveDistance = Math.min(180, Math.max(90, window.innerWidth * 0.2));
+                var currentLeft = rect.left;
+                var targetLeft = dodgeDirection === 'left'
+                    ? currentLeft - moveDistance
+                    : currentLeft + moveDistance;
+
+                if (targetLeft > maxLeft || targetLeft < minLeft) {
+                    targetLeft = dodgeDirection === 'left'
+                        ? currentLeft + moveDistance
+                        : currentLeft - moveDistance;
+                }
+
+                targetLeft = Math.max(minLeft, Math.min(maxLeft, targetLeft));
+                itchFloat.style.left = targetLeft + 'px';
+                itchFloat.style.right = 'auto';
+
+                window.setTimeout(function () {
+                    itchFloat.classList.remove('is-dodging');
+                    isDodging = false;
+
+                    if (dodgeStep >= dodgeSequence.length) {
+                        itchFloat.classList.add('is-unlocked');
+                        itchFloat.title = 'Lien débloqué : ouvrir mon profil Itch.io';
+                    }
+                }, 360);
+            });
+        })();
+    </script>
 </body>
 </html>

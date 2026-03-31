@@ -316,3 +316,58 @@ footer {
         padding: 24px;
     }
 }
+
+.itch-float {
+    position: fixed;
+    width: 74px;
+    height: 74px;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 18px;
+    border: 2px solid #fa5c5c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    animation: itch-glow 2.8s ease-in-out infinite;
+    cursor: pointer;
+}
+
+.itch-float img {
+    width: 84%;
+    height: auto;
+    display: block;
+}
+
+.itch-float:hover {
+    transform: translateY(-3px) scale(1.06);
+    border-color: #ff4444;
+    box-shadow: 0px 6px 20px rgba(250, 92, 92, 0.5);
+}
+
+.itch-float.is-dodging {
+    transform: scale(1.08) rotate(3deg);
+}
+
+.itch-float.is-unlocked {
+    border-color: #2ecc71;
+    box-shadow: 0px 10px 24px rgba(46, 204, 113, 0.35);
+}
+
+@keyframes itch-glow {
+    0% { box-shadow: 0px 8px 20px rgba(0,0,0,0.2); }
+    50% { box-shadow: 0px 10px 24px rgba(250, 92, 92, 0.38); }
+    100% { box-shadow: 0px 8px 20px rgba(0,0,0,0.2); }
+}
+
+@media screen and (max-width: 768px) {
+    .itch-float {
+        width: 62px;
+        height: 62px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
