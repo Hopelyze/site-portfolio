@@ -64,10 +64,14 @@ h1 {
     font-size: 3.5rem;
     margin-bottom: 10px;
     color: var(--accent);
+    font-family: 'Playfair Display', serif;
 }
 
+h2 {
+    font-family: 'Playfair Display', serif;
+}
 .tagline {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: bold;
     max-width: 800px;
     margin-bottom: 30px;
