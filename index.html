@@ -101,80 +101,116 @@
         <p>&copy; 2026 — Chloé Legendre Leprêtre — Master AMINJ</p>
         <a href="mentions-legales.html" class="footer-link">Mentions légales</a>
     </footer>
-    <a href="https://hopelyze.itch.io/" class="itch-float" target="_blank" title="Jouer à mes jeux sur Itch.io">
-        <img src="images/itch.png" alt="Jouer à mes jeux sur Itch.io" loading="lazy">
-        <span class="itch-float-label" aria-hidden="true"></span>
+    <a href="https://hopelyze.itch.io/" class="itch-slide" target="_blank" title="Glisser pour ouvrir mon Itch.io" aria-label="Glisser pour ouvrir mon profil Itch.io">
+        <span class="itch-track-text" aria-hidden="true">Glissez pour accéder à mon profil Itch</span>
+        <span class="itch-thumb" aria-hidden="true">
+            <img src="images/itch.png" alt="" loading="lazy">
+        </span>
     </a>
     <script>
         (function () {
-            var itchFloat = document.querySelector('.itch-float');
-            var itchFloatLabel = document.querySelector('.itch-float-label');
-            if (!itchFloat) {
+            var slide = document.querySelector('.itch-slide');
+            var thumb = document.querySelector('.itch-thumb');
+            if (!slide || !thumb) {
                 return;
             }
 
-            var isDodging = false;
-            var dodgeStep = 0;
-            var dodgeSequence = ['left', 'right'];
+            var dragging = false;
+            var unlocked = false;
+            var dragOffsetX = 0;
+            var currentX = 0;
+            var maxX = 0;
 
-            itchFloat.addEventListener('click', function (event) {
-                if (isDodging) {
-                    event.preventDefault();
+            function updateBounds() {
+                maxX = Math.max(0, slide.clientWidth - thumb.clientWidth - 12);
+                if (unlocked) {
+                    currentX = maxX;
+                } else {
+                    currentX = Math.min(currentX, maxX);
+                }
+                updateThumb(currentX);
+            }
+
+            function updateThumb(nextX) {
+                currentX = Math.max(0, Math.min(maxX, nextX));
+                var progress = maxX > 0 ? currentX / maxX : 0;
+                thumb.style.transform = 'translateX(' + currentX + 'px)';
+                slide.style.setProperty('--slide-progress', progress.toFixed(3));
+                slide.classList.toggle('is-active', progress > 0.08 && !unlocked);
+            }
+
+            function completeSlide() {
+                unlocked = true;
+                slide.classList.add('is-ready');
+                updateThumb(maxX);
+
+                window.setTimeout(function () {
+                    window.open(slide.href, '_blank', 'noopener');
+                }, 120);
+            }
+
+            function resetSlide() {
+                slide.classList.remove('is-active');
+                updateThumb(0);
+            }
+
+            thumb.addEventListener('pointerdown', function (event) {
+                if (unlocked) {
                     return;
                 }
 
-                if (dodgeStep >= dodgeSequence.length) {
+                dragging = true;
+                dragOffsetX = event.clientX - currentX;
+                slide.classList.add('is-dragging');
+                thumb.setPointerCapture(event.pointerId);
+                event.preventDefault();
+            });
+
+            thumb.addEventListener('pointermove', function (event) {
+                if (!dragging || unlocked) {
+                    return;
+                }
+                updateThumb(event.clientX - dragOffsetX);
+            });
+
+            function stopDragging() {
+                if (!dragging) {
+                    return;
+                }
+
+                dragging = false;
+                slide.classList.remove('is-dragging');
+
+                if (currentX >= maxX * 0.72) {
+                    completeSlide();
+                } else {
+                    resetSlide();
+                }
+            }
+
+            thumb.addEventListener('pointerup', stopDragging);
+            thumb.addEventListener('pointercancel', stopDragging);
+            thumb.addEventListener('lostpointercapture', stopDragging);
+
+            slide.addEventListener('click', function (event) {
+                if (unlocked) {
                     return;
                 }
 
                 event.preventDefault();
-                var dodgeDirection = dodgeSequence[dodgeStep];
-                dodgeStep += 1;
-
-                if (itchFloatLabel) {
-                    itchFloatLabel.textContent = dodgeDirection === 'left' ? 'Lien' : 'Itch';
-                }
-
-                isDodging = true;
-                itchFloat.classList.add('is-dodging');
-                itchFloat.classList.toggle('is-dodging-left', dodgeDirection === 'left');
-                itchFloat.classList.toggle('is-dodging-right', dodgeDirection === 'right');
-
-                var rect = itchFloat.getBoundingClientRect();
-                var margin = 16;
-                var minLeft = margin;
-                var maxLeft = window.innerWidth - rect.width - margin;
-                var moveDistance = Math.min(180, Math.max(90, window.innerWidth * 0.2));
-                var currentLeft = rect.left;
-                var targetLeft = dodgeDirection === 'left'
-                    ? currentLeft - moveDistance
-                    : currentLeft + moveDistance;
-
-                if (targetLeft > maxLeft || targetLeft < minLeft) {
-                    targetLeft = dodgeDirection === 'left'
-                        ? currentLeft + moveDistance
-                        : currentLeft - moveDistance;
-                }
-
-                targetLeft = Math.max(minLeft, Math.min(maxLeft, targetLeft));
-                itchFloat.style.left = targetLeft + 'px';
-                itchFloat.style.right = 'auto';
-
-                window.setTimeout(function () {
-                    itchFloat.classList.remove('is-dodging');
-                    itchFloat.classList.remove('is-dodging-left');
-                    itchFloat.classList.remove('is-dodging-right');
-                    if (itchFloatLabel) {
-                        itchFloatLabel.textContent = '';
-                    }
-                    isDodging = false;
-
-                    if (dodgeStep >= dodgeSequence.length) {
-                        itchFloat.classList.add('is-unlocked');
-                        itchFloat.title = 'Lien débloqué : ouvrir mon profil Itch.io';
-                    }
-                }, 460);
+                slide.classList.remove('is-hint');
+                void slide.offsetWidth;
+                slide.classList.add('is-hint');
             });
+
+            slide.addEventListener('animationend', function (event) {
+                if (event.animationName === 'slide-hint') {
+                    slide.classList.remove('is-hint');
+                }
+            });
+
+            window.addEventListener('resize', updateBounds);
+            updateBounds();
         })();
     </script>
 </body>
