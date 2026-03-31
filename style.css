@@ -172,14 +172,14 @@ section {
 }
 
 .project-hero {
-    width: 100%;
+    width: 70%;
     aspect-ratio: 16 / 9;
     height: auto;
     object-fit: contain;
     background: #ffffff;
     border-radius: 14px;
     display: block;
-    margin: 12px 0 20px;
+    margin: 8px auto 16px;
 }
 
 .project-hero.is-portrait {
