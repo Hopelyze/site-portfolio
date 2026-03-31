@@ -131,6 +131,8 @@
 
                 isDodging = true;
                 itchFloat.classList.add('is-dodging');
+                itchFloat.classList.toggle('is-dodging-left', dodgeDirection === 'left');
+                itchFloat.classList.toggle('is-dodging-right', dodgeDirection === 'right');
 
                 var rect = itchFloat.getBoundingClientRect();
                 var margin = 16;
@@ -154,13 +156,15 @@
 
                 window.setTimeout(function () {
                     itchFloat.classList.remove('is-dodging');
+                    itchFloat.classList.remove('is-dodging-left');
+                    itchFloat.classList.remove('is-dodging-right');
                     isDodging = false;
 
                     if (dodgeStep >= dodgeSequence.length) {
                         itchFloat.classList.add('is-unlocked');
                         itchFloat.title = 'Lien débloqué : ouvrir mon profil Itch.io';
                     }
-                }, 360);
+                }, 460);
             });
         })();
     </script>

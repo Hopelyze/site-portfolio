@@ -331,7 +331,8 @@ footer {
     justify-content: center;
     box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
     z-index: 1000;
-    transition: all 0.3s ease;
+    transform-origin: 50% 85%;
+    transition: left 0.38s cubic-bezier(0.2, 0.8, 0.2, 1.15), border-color 0.25s ease, box-shadow 0.25s ease;
     animation: itch-glow 2.8s ease-in-out infinite;
     cursor: pointer;
 }
@@ -342,19 +343,49 @@ footer {
     display: block;
 }
 
-.itch-float:hover {
+.itch-float:not(.is-dodging):hover {
     transform: translateY(-3px) scale(1.06);
     border-color: #ff4444;
     box-shadow: 0px 6px 20px rgba(250, 92, 92, 0.5);
 }
 
 .itch-float.is-dodging {
-    transform: scale(1.08) rotate(3deg);
+    filter: saturate(1.15);
+}
+
+.itch-float.is-dodging-left {
+    animation: dodge-left-cartoon 0.46s cubic-bezier(0.22, 0.9, 0.2, 1.25) both;
+}
+
+.itch-float.is-dodging-right {
+    animation: dodge-right-cartoon 0.46s cubic-bezier(0.22, 0.9, 0.2, 1.25) both;
 }
 
 .itch-float.is-unlocked {
     border-color: #2ecc71;
     box-shadow: 0px 10px 24px rgba(46, 204, 113, 0.35);
+    animation: itch-glow 2.8s ease-in-out infinite, unlock-pop 0.55s cubic-bezier(0.18, 0.9, 0.3, 1.35) 1;
+}
+
+@keyframes dodge-left-cartoon {
+    0% { transform: translateY(0) scale(1); }
+    25% { transform: translateY(-4px) scaleX(0.86) scaleY(1.12) rotate(-17deg); }
+    62% { transform: translateY(2px) scaleX(1.12) scaleY(0.9) rotate(9deg); }
+    100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+@keyframes dodge-right-cartoon {
+    0% { transform: translateY(0) scale(1); }
+    25% { transform: translateY(-4px) scaleX(0.86) scaleY(1.12) rotate(17deg); }
+    62% { transform: translateY(2px) scaleX(1.12) scaleY(0.9) rotate(-9deg); }
+    100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+@keyframes unlock-pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.2) rotate(7deg); }
+    70% { transform: scale(0.93) rotate(-5deg); }
+    100% { transform: scale(1) rotate(0deg); }
 }
 
 @keyframes itch-glow {
